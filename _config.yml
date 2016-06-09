@@ -1,0 +1,10 @@
+excerpt_separator: ""
+pygments: true
+markdown: kramdown
+url: http://AlexusBlack.github.io
+title: Alex Chernov Lab
+email: alexusblack@gmail.com
+author: Alex Chernov
+description: Web laboratory of Alex Chernov, Web and Xamarin Lead at nexpaq - the first modular smartphone case to enter the IoT
+paginate: 3
+google_analytics: UA-3926779-10
