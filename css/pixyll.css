@@ -74,6 +74,7 @@ body {
   color: inherit;
   font-weight: 300;
   text-decoration: none;
+  text-align: left;
 }
 
 .site-header nav a {
@@ -411,12 +412,20 @@ footer:after {
 }
 
 .input {
+  -webkit-appearance: none;
+  border-radius: 0;
   box-sizing: border-box;
   border: 1px solid #b3b2b1;
   line-height: 25px;
   padding: 0 15px;
 }
+textarea.input {
+  line-height: 1.2em;
+  padding-top: 10px;
+}
 .button {
+  -webkit-appearance: none;
+  border-radius: 0;
   color: #99999a;
   border: 1px solid;
   background-color: transparent;
