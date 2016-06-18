@@ -1,6 +1,7 @@
 ---
 published: true
 title: Alternative interactive image comparison
+summary: Other way to solve css secret 35 from book by Lea Verou. Just one html tag and no any JS.
 layout: post
 tags: [css-secrets, sass, experiments]
 categories: [css-secrets]
