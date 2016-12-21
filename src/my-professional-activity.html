@@ -1,0 +1,126 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="badges-styles.html">
+
+<dom-module id="my-professional-activity">
+  <template>
+    <style include="shared-styles badges-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+
+      .professional-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .professional-content > section {
+        margin: 3px;
+        flex-grow: 1;
+        width: 100%;
+        max-width: 400px;
+      }
+      .professional-content > .professional-accounts {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .codepen-profile img {
+        width: 400px;
+      }
+      .badges li {
+        width: 10% !important;
+        min-width: 60px;
+      }
+      .report-card.treehouse {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @media screen and (max-width: 800px) {
+        .linkedin-profile {
+          height: 147px;
+        }
+        .linkedin-profile > span {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
+      .github-profile iframe,
+      .public-repositories iframe {
+        max-width: 100%;
+      }
+    </style>
+
+    <div class="card">
+      <h1>Professional Activity</h1>
+      <article class="professional-content">
+        <section class="professional-accounts">
+          <div class="linkedin-profile" id="linkedin-profile">
+            <script src="//platform.linkedin.com/in.js" type="text/javascript" on-load='on_linkedin_widgets_loaded'></script>
+            <script type="IN/MemberProfile" data-id="https://www.linkedin.com/in/alexusblack" data-format="inline" data-related="false"></script>
+          </div>
+          <div class="github-profile">
+            <div class="github-card" id="github-card-alexusblack" data-github="AlexusBlack" data-width="400" data-height="150" data-theme="default"></div>
+          </div>
+          <div class="codepen-profile">
+            <a href="https://codepen.io/alexusblack">
+              <img src="../images/codepen-logo.png" alt="CODEPED">
+            </a>
+          </div>
+        </section>
+        <section class="public-repositories">
+          <div class="github-card" id="github-card-alexusmailer" data-github="AlexusBlack/alexusMailer-2" data-width="400" data-height="" data-theme="default"></div>
+          <div class="github-card" id="github-card-ninja-blocks" data-github="AlexusBlack/Ninja-Forms-Blocks" data-width="400" data-height="" data-theme="default"></div>
+          <div class="github-card" id="github-card-randomizer" data-github="AlexusBlack/image-randomizer" data-width="400" data-height="201" data-theme="default"></div>
+        </section>
+
+        <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js" on-load="on_github_widgets_loaded"></script>
+      </article>
+      <div class="report-card treehouse" id="treehouse-report-card"></div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-professional-activity',
+      ready: function() {
+        this.async(function() {
+          var treehouse_card = this.$['treehouse-report-card'];
+          $(treehouse_card).reportCard({
+              userName: 'alexusblack',
+              site: 'treehouse',
+              badgesAmount: 100
+          });
+        });
+      },
+      on_linkedin_widgets_loaded: function() {
+        console.log('linkedin in.js loaded');
+        IN.Event.onDOMReady(function () {
+            IN.parse(this.$['linkedin-profile']);
+        }, this);
+      },
+      on_github_widgets_loaded: function() {
+        console.log('github widgets loaded');
+        var cards = ['github-card-alexusblack', 'github-card-alexusmailer', 'github-card-ninja-blocks', 'github-card-randomizer'];
+        for(var i=0; i<cards.length; i++) {
+          githubCard.render(this.$[cards[i]]);
+        }
+      }
+    });
+  </script>
+</dom-module>
