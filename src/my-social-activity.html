@@ -1,0 +1,140 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-social-activity">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .social-media-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .social-media-content > section,
+      .social-media-content > div {
+        flex-grow: 1;
+        margin: 3px;
+      }
+
+      .secondary-social-media {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+        @media screen and (min-width: 1005px) {
+          .secondary-social-media {
+            max-width: 350px;
+          }
+        }
+
+      .social-media-content > .social-media-twitter {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .social-media-instagram {
+        position: relative;
+        width: 100%;
+      }
+      .social-media-instagram::before {
+        content: '';
+        display: block;
+        width: 100%;
+        padding-top: 75%;
+      }
+      .social-media-instagram iframe {
+        position: absolute;
+        top: 0;
+        height: 100%;
+      }
+      .social-media-facebook {
+        flex-grow: 1;
+        text-align: center;
+      }
+    </style>
+
+    <div class="card">
+      <h1>Social Activity</h1>
+      <article class="social-media-content">
+        <section class="social-media-twitter" id="social-media-twitter">
+          <a class="twitter-timeline" href="https://twitter.com/AlexusBlack">Tweets by Alex Chernov</a>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8" on-load="twitter_widgets_loaded"></script>
+        </section>
+
+        <div class="secondary-social-media">
+          <section class="social-media-instagram">
+            <!-- SnapWidget -->
+            <script src="https://snapwidget.com/js/snapwidget.js"></script>
+            <iframe src="https://snapwidget.com/embed/code/219426" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
+          </section>
+
+          <section class="social-media-facebook" id="social-media-facebook">
+            <div class="fb-page" data-href="https://www.facebook.com/alexuslab" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-width="350" data-height="1500"><blockquote cite="https://www.facebook.com/alexuslab" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/alexuslab">Alex Chernov</a></blockquote></div>
+          </section>
+        </div>
+      </article>
+    </div>
+  </template>
+
+  <script>
+  var is_social_activity_loaded = false;
+  var is_twitter_widgets_loaded = false;
+
+    Polymer({
+      is: 'my-social-activity',
+      attached: function() {
+        this.async(function() {
+          this.social_activity_loaded();
+        });
+      },
+      social_activity_loaded: function() {
+        is_social_activity_loaded = true;
+        console.log('social activity loaded');
+        this.try_init_twitter_timeline();
+        this.try_init_facebook_timeline();
+      },
+      twitter_widgets_loaded: function() {
+        is_twitter_widgets_loaded = true;
+        console.log('twitter widgets loaded');
+        this.try_init_twitter_timeline();
+      },
+      facebook_widgets_loaded: function() {
+        is_facebook_widgets_loaded = true;
+        console.log('facebook widgets loaded');
+        this.try_init_facebook_timeline();
+      },
+      try_init_twitter_timeline: function() {
+        if(!is_social_activity_loaded || !is_twitter_widgets_loaded) return;
+
+        var tw_container = this.$['social-media-twitter'];
+        twttr.ready(function () {
+          twttr.widgets.load(tw_container);
+        }.bind(tw_container));
+      },
+      try_init_facebook_timeline: function() {
+        if(!is_facebook_widgets_loaded) {
+          on_facebook_widgets_loaded_event_handlers.push([this, this.try_init_facebook_timeline]);
+          return;
+        }
+
+        FB.XFBML.parse(this.$['social-media-facebook']);
+      }
+
+    });
+  </script>
+</dom-module>
